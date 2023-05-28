@@ -1,0 +1,16 @@
+.table_container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #212529;
+}
+
+.table_container th {
+    font-size: medium;
+}
+
+.table_container td {
+    font-size: small;
+}
+.table_container span {
+    cursor: pointer;
+}
