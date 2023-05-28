@@ -22,12 +22,6 @@ export const mainState = createSlice({
                 interviewTimeDate: "12:00PM Wed Feb 10, 2021",
                 offer: ["Offer Accepted", "Offer Declined", "Offer Pending"],
                 followUpDate: "Wed Feb 17, 2021",
-
-
-
-
-
-
             }
         ],
         captureInput: {
