@@ -46,13 +46,17 @@ export const mainState = createSlice({
     //All state values/functions are written/handled here
     reducers: {
         inputComponyName: (state, action) => {
-            console.log('action', action)
-            //state.captureInput.company = action.payload
+          
+            state.captureInput.company = action.payload
+           
         },
         inputLink: (state, action) => {
             state.captureInput.link = action.payload
         },
-        inputRoleName: (state, action) => {
+        inputRole: (state, action) => {
+            state.captureInput.role = action.payload
+        },
+        inputContactName: (state, action) => {
             state.captureInput.contact.name = action.payload
         },
         inputContactEmail: (state, action) => {
@@ -80,10 +84,12 @@ export const mainState = createSlice({
             state.captureInput.offer = action.payload
         },
         inputFollowUpDate: (state, action) => {
+            console.log('action.payload: ',action.payload)
             state.captureInput.followUpDate = action.payload
         },
         addNew: (state, action) => {
-            state.list.push(action.payload)
+            state.list.push(state.captureInput)
+            console.log('state.list: ',state.list)
         }
         
     },

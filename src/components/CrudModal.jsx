@@ -24,6 +24,7 @@ import {
 } from "../redux/crudSlice";
 
 export default function CrudModal(props) {
+  console.log('props', props)
   const dispatch = useDispatch(); //the action that will happen
   const responseArr = useSelector((state) => state.crud.list[0].response);//get the response array for the dropdown list
   const responseSelected = useSelector((state) => state.crud.captureInput.response); //get the response selected value from the captured list
@@ -43,14 +44,23 @@ export default function CrudModal(props) {
 
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+   
+   if (props.addNew) {
+    dispatch(addNew())
+    }
+   
+    setShow(false)
+  };
 
   const handleShow = (e) => {
     setShow(true)  
     if (props.addNew) {
-        //dispatch(addNew({val:e.target.value, i: props?.passData[1]}))
+        //dispatch(addNew(e.target.value))
         console.log('adding: ')
-    } 
+    } else {
+        console.log('updating: ')
+    }
   };
 
   return (
@@ -61,7 +71,7 @@ export default function CrudModal(props) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Track new Interview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -70,7 +80,7 @@ export default function CrudModal(props) {
               <Form.Control
                 type="text"
                 defaultValue={inputValue ? inputValue.company : ""}
-                onChange={(e) => dispatch(inputComponyName({val:e.target.value, i: props?.passData[1]}))}
+                onChange={(e) => dispatch(inputComponyName(e.target.value))}
               />
             </Form.Group>
 
@@ -79,7 +89,7 @@ export default function CrudModal(props) {
               <Form.Control
                 type="text"
                 defaultValue={inputValue ? inputValue.link : ""}
-                onChange={(e) => dispatch(inputLink({val:e.target.value, i: props?.passData[1]}))}
+                onChange={(e) => dispatch(inputLink(e.target.value))}
               />
             </Form.Group>
 
@@ -88,7 +98,7 @@ export default function CrudModal(props) {
               <Form.Control
                 type="text"
                 defaultValue={inputValue ? inputValue.role : ""}
-                onChange={(e) => dispatch(inputRole({val:e.target.value, i: props?.passData[1]}))}
+                onChange={(e) => dispatch(inputRole(e.target.value))}
               />
             </Form.Group>
 
@@ -102,7 +112,7 @@ export default function CrudModal(props) {
                       type="text"
                       defaultValue={inputValue ? inputValue.contact.name : ""}
                       onChange={(e) =>
-                        dispatch(inputContactName({val:e.target.value, i: props?.passData[1]}))
+                        dispatch(inputContactName(e.target.value))
                       }
                     />
                     <Form.Label>Email</Form.Label>
@@ -110,7 +120,7 @@ export default function CrudModal(props) {
                       type="email"
                       defaultValue={inputValue ? inputValue.contact.email : ""}
                       onChange={(e) =>
-                        dispatch(inputContactEmail({val:e.target.value, i: props?.passData[1]}))
+                        dispatch(inputContactEmail(e.target.value))
                       }
                     />
                     <Form.Label>Phone</Form.Label>
@@ -118,7 +128,7 @@ export default function CrudModal(props) {
                       type="text"
                       defaultValue={inputValue ? inputValue.contact.phone : ""}
                       onChange={(e) =>
-                        dispatch(inputContactPhone({val:e.target.value, i: props?.passData[1]}))
+                        dispatch(inputContactPhone(e.target.value))
                       }
                     />
                   </Form.Group>
@@ -131,7 +141,7 @@ export default function CrudModal(props) {
               <Form.Control
                 type="text"
                 defaultValue={inputValue ? inputValue.applyDate : ""}
-                onChange={(e) => dispatch(inputApplyDate({val:e.target.value, i: props?.passData[1]}))}
+                onChange={(e) => dispatch(inputApplyDate(e.target.value))}
               />
             </Form.Group>
 
@@ -166,7 +176,7 @@ export default function CrudModal(props) {
                   <Dropdown.Item
                     key={j}
                     onClick={(e) =>
-                      dispatch(inputInterviewStage(e.target.innerText))
+                      dispatch(inputInterviewStage([e.target.innerText]))
                     }
                   >
                     {item}
@@ -180,7 +190,7 @@ export default function CrudModal(props) {
               <Form.Control
                 type="text"
                 onChange={(e) =>
-                  dispatch(inputInterviewTimeDate(e.target.innerText))
+                  dispatch(inputInterviewTimeDate(e.target.value))
                 }
               />
             </Form.Group>
@@ -190,7 +200,7 @@ export default function CrudModal(props) {
               <Form.Control
                 type="text"
                 onChange={(e) =>
-                  dispatch(inputOffer(e.target.innerText))
+                  dispatch(inputOffer(e.target.value))
                 }
               />
             </Form.Group>
@@ -199,9 +209,7 @@ export default function CrudModal(props) {
               <Form.Label>Follow Up Date</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) =>
-                  dispatch(inputFollowUpDate(e.target.innerText))
-                }
+                onChange={(e) => dispatch(inputFollowUpDate(e.target.value))}
               />
             </Form.Group>
 
@@ -213,7 +221,7 @@ export default function CrudModal(props) {
             Close
           </Button>
           <Button variant="primary" onClick={handleClose}>
-            Update
+            {props.addNew ? "Add" : "Update"}
           </Button>
         </Modal.Footer>
       </Modal>
