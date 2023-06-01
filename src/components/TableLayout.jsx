@@ -7,6 +7,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import CrudModal from "./CrudModal";
 import ListGroup from "react-bootstrap/ListGroup";
 
+
 export default function TableLayout() {
   const stateValues = useSelector((state) => state.crud);
   console.log('stateValues', stateValues)
@@ -19,14 +20,15 @@ export default function TableLayout() {
           <ListGroup>
            <ListGroup.Item>
               <div className="ms-2 me-auto">
-                <div className="fw-bold">Card</div>
+              <CrudModal addNew={{crud:"edit", value: item}} />
+                <div className="fw-bold">Interview Card</div>
                 {index}
               </div>
             </ListGroup.Item>
 
             <ListGroup.Item>
               <div className="ms-2 me-auto">
-                <div className="fw-bold">Compony</div>
+                <div className="fw-bold">Company name</div>
                 {item.company}
               </div>
             </ListGroup.Item>
@@ -44,8 +46,12 @@ export default function TableLayout() {
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
-                <div className="fw-bold">Contact name</div>
-                {item.contact.name}
+                <div className="fw-bold ">Contact</div>
+                <div className="contactList">
+                  <p>{`Name: ${item.contact.name}`}</p> 
+                  <p>{`Email: ${item.contact.email}`}</p>
+                  <p>{`Phone: ${item.contact.phone}`}</p>
+                </div>
               </div>
             </ListGroup.Item>
             <ListGroup.Item>

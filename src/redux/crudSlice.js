@@ -17,8 +17,8 @@ export const mainState = createSlice({
                     phone: "123-456-7890"
                 },
                 applyDate: "2021-01-01",
-                response: ["Positive email", "Positive phone call", "Rejected"],
-                interviewStage: ["1st Face-to-face", "2nd Face-to-face", "3rd Face-to-face", "4th Face-to-face", "Interview Declined"],
+                response: ["None","Positive email", "Positive phone call", "Rejected"],
+                interviewStage: ["None","1st Face-to-face", "2nd Face-to-face", "3rd Face-to-face", "4th Face-to-face", "Interview Declined"],
                 interviewTimeDate: "12:00PM Wed Feb 10, 2021",
                 offer: ["Offer Accepted", "Offer Declined", "Offer Pending"],
                 followUpDate: "Wed Feb 17, 2021",
@@ -89,8 +89,10 @@ export const mainState = createSlice({
         },
         addNew: (state, action) => {
             state.list.push(state.captureInput)
-            console.log('state.list: ',state.list)
-        }
+        },
+        update: (state, action) => {
+            state.list[action.payload.index] = action.payload.value
+        },
         
     },
 })
@@ -100,7 +102,7 @@ export const mainState = createSlice({
 // Action creators are generated for each case reducer function
   
 
-export const { initialState, inputComponyName, inputLink, inputRole, inputContactName , inputContactEmail, inputContactPhone, inputApplyDate, inputResponse, inputInterviewStage,  inputInterviewTimeDate, inputOffer, inputFollowUpDate, addNew } = mainState.actions
+export const { initialState, inputComponyName, update, inputLink, inputRole, inputContactName , inputContactEmail, inputContactPhone, inputApplyDate, inputResponse, inputInterviewStage,  inputInterviewTimeDate, inputOffer, inputFollowUpDate, addNew } = mainState.actions
 
 export default mainState.reducer
 

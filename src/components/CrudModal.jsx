@@ -21,10 +21,11 @@ import {
   inputOffer,
   inputFollowUpDate,
   addNew,
+  update,
 } from "../redux/crudSlice";
+import edit from "./images/edit_property.svg";
 
 export default function CrudModal(props) {
-  console.log('props', props)
   const dispatch = useDispatch(); //the action that will happen
   const responseArr = useSelector((state) => state.crud.list[0].response);//get the response array for the dropdown list
   const responseSelected = useSelector((state) => state.crud.captureInput.response); //get the response selected value from the captured list
@@ -41,19 +42,25 @@ export default function CrudModal(props) {
     return null;
   });
   
+  let check = props.addNew.crud === "edit"
+  console.log('check', check)
 
 
   const [show, setShow] = useState(false);
-  const handleClose = () => {
-   
-   if (props.addNew) {
+  const handleClose = (e) => {
+   console.log('e.target.textContent: ',)
+   if (e?.target?.innerText === 'Add') {
     dispatch(addNew())
+    } else {
+      dispatch(update())
     }
    
     setShow(false)
   };
 
   const handleShow = (e) => {
+   
+
     setShow(true)  
     if (props.addNew) {
         //dispatch(addNew(e.target.value))
@@ -65,11 +72,14 @@ export default function CrudModal(props) {
 
   return (
     <>
+      {props.addNew.crud === "edit" ? <></>:
       <Button variant="primary" onClick={handleShow}>
-        {props.passData ? "Update" : "Add"}
-      </Button>
+        Add
+      </Button>}
 
-      <Modal show={show} onHide={handleClose}>
+      <img className="edit_icon" src={edit} alt="edit icon" onClick={(e) => handleShow(e)} />
+
+      <Modal show={show} onHide={(e) => handleClose(e)}>
         <Modal.Header closeButton>
           <Modal.Title>Track new Interview</Modal.Title>
         </Modal.Header>
@@ -79,7 +89,7 @@ export default function CrudModal(props) {
               <Form.Label>Company Name</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={inputValue ? inputValue.company : ""}
+                defaultValue={ check ? props.addNew.value.company: ""}
                 onChange={(e) => dispatch(inputComponyName(e.target.value))}
               />
             </Form.Group>
@@ -217,11 +227,11 @@ export default function CrudModal(props) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={(e) => handleClose(e)}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            {props.addNew ? "Add" : "Update"}
+          <Button variant="primary" onClick={(e) => handleClose(e)}>
+            {props.addNew.crud === "add" ? "Add" : "Update"}
           </Button>
         </Modal.Footer>
       </Modal>

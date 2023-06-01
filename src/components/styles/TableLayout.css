@@ -1,18 +1,43 @@
 .table_container {
-    max-width: 400px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     margin: auto;
     text-align: left;
     font-size: small;
  
 }
 
-.table_container th {
-    font-size: medium;
+.list-group {
+    margin: 20px;
 }
 
-.table_container td {
-    font-size: small;
+.contactList {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }
+
+.contactList p {
+    margin: 0;
+
+}
+
 .table_container span {
     cursor: pointer;
+}
+
+.edit_icon {
+    width: 20px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.edit_icon:hover {
+   width: 22px;
 }
