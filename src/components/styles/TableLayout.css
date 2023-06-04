@@ -10,6 +10,8 @@
 
 .list-group {
     margin: 20px;
+    min-width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .contactList {
@@ -33,11 +35,32 @@
 .edit_icon {
     width: 20px;
     position: absolute;
-    right: 2px;
+    right: 10px;
     top: 2px;
     cursor: pointer;
 }
 
 .edit_icon:hover {
    width: 22px;
+}
+
+.delete-doc {
+    width: 20px;
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    cursor: pointer;
+}
+.delete-doc:hover {
+    width: 22px;
+}
+
+.toast {
+    position: absolute !important;
+    z-index: 5 !important;
+}
+
+.confirm-delete {
+    width: 30px;
+    cursor: pointer;
 }

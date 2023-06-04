@@ -1,3 +1,18 @@
 .accordion-button  {
     padding: 10px 5px !important;
 }
+
+.add-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal-header {
+    padding: 0px 10px !important;
+}
+
+.modal-footer {
+    padding: 3px 5px !important;
+}
