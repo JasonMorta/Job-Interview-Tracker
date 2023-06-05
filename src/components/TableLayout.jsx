@@ -91,10 +91,10 @@ export default function TableLayout() {
                 {item.company}
               </div>
             </ListGroup.Item>
-            <ListGroup.Item>
+            <ListGroup.Item style={{"max-width": "300px", "line-break": "anywhere"}}>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Link</div>
-                <a href={item.link} target="_blank" rel="noopener noreferrer">{item.link}</a>
+                <a href={`${item.link}`} target="_blank" rel="noreferrer">{item.link}</a>
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
