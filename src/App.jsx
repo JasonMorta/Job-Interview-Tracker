@@ -19,8 +19,8 @@ function App() {
     //Show modal
     const handleShow = (e) => {
       //console.log('e', true)
-     dispatch(showModal(true))
-     dispatch(addNew("adding"))
+     dispatch(showModal([true, "adding"]))
+     //dispatch(addNew("adding"))
       // setShow(true)  
   
       // if (e === "Add") {
@@ -33,14 +33,17 @@ function App() {
     };
 
   return (
-    <div className="App">
-      <h1>{stateValues.heading}</h1>
-      <TableLayout />
-      <CrudModal />
-      <Button variant="dark" className="add-btn" onClick={()=> handleShow()}>
+    <>
+      <div className="App">
+        <h1>{stateValues.heading}</h1>
+        <TableLayout />
+        <CrudModal />
+      
+      </div>
+        <Button variant="dark" className="add-btn" onClick={()=> handleShow()}>
         Add
       </Button>
-    </div>
+    </>
   );
 }
 

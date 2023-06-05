@@ -5,7 +5,7 @@
     margin: auto;
     text-align: left;
     font-size: small;
- 
+    margin-bottom: 65px;
 }
 
 .list-group {
@@ -41,7 +41,7 @@
 }
 
 .edit_icon:hover {
-   width: 22px;
+    width: 22px;
 }
 
 .delete-doc {
@@ -51,6 +51,7 @@
     top: 25px;
     cursor: pointer;
 }
+
 .delete-doc:hover {
     width: 22px;
 }
@@ -64,3 +65,48 @@
     width: 30px;
     cursor: pointer;
 }
+
+
+.scale-out-ver-top {
+	-webkit-animation: scale-out-ver-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: scale-out-ver-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+/**
+ * ----------------------------------------
+ * animation scale-out-ver-top
+ * ----------------------------------------
+ */
+ @-webkit-keyframes scale-out-ver-top {
+    0% {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+      -webkit-transform-origin: 100% 0%;
+              transform-origin: 100% 0%;
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+      -webkit-transform-origin: 100% 0%;
+              transform-origin: 100% 0%;
+      opacity: 1;
+    }
+  }
+  @keyframes scale-out-ver-top {
+    0% {
+      -webkit-transform: scaleY(1);
+              transform: scaleY(1);
+      -webkit-transform-origin: 100% 0%;
+              transform-origin: 100% 0%;
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scaleY(0);
+              transform: scaleY(0);
+      -webkit-transform-origin: 100% 0%;
+              transform-origin: 100% 0%;
+      opacity: 1;
+    }
+  }
+  

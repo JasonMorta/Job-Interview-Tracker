@@ -10,7 +10,7 @@ import del from "./images/delete_document.svg";
 import edit from "./images/edit_property.svg";
 import Toast from "react-bootstrap/Toast";
 import ok from "./images/ok_1.svg";
-import { deleteCard, showModal, update,getIndex } from "../redux/crudSlice";
+import { deleteCard, showModal, editExisting,getIndex } from "../redux/crudSlice";
 
 export default function TableLayout() {
   const stateValues = useSelector((state) => state.crud);
@@ -46,6 +46,7 @@ export default function TableLayout() {
                       className="rounded me-2 confirm-delete"
                       alt="confirm delete icon"
                       onClick={() => {
+                 
                         dispatch(deleteCard(index));
                         setShow(false);
                       }}
@@ -62,9 +63,9 @@ export default function TableLayout() {
                   alt="edit icon"
                   onClick={(e) => {
                     //handleShow("Edit")
-                    dispatch(showModal(true));
+                    dispatch(showModal([true, "edit", index]));
                     dispatch(getIndex(index));
-                    //dispatch(update("editing"));
+                    dispatch(editExisting());
                     //fill the form with the selected item values
                     //set the input values to the selected item values
                   }}
@@ -93,7 +94,7 @@ export default function TableLayout() {
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Link</div>
-                {item.link}
+                <a href={item.link} target="_blank" rel="noopener noreferrer">{item.link}</a>
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
