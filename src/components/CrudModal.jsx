@@ -23,66 +23,57 @@ import {
   addNew,
   update,
   loadLists,
+  showModal,
   openModal,
 } from "../redux/crudSlice";
-import edit from "./images/edit_property.svg";
 
 export default function CrudModal(props) {
-
   //const checkCapture = useSelector((state) => state.crud.captureInput)
-
   const dispatch = useDispatch(); //the action that will happen
-  const responseArr = useSelector((state) => state.crud.initialList[0].response);//get the response array for the dropdown list
+  const responseArr = useSelector((state) => state.crud.initialList[0].response);
+  //get the response array for the dropdown list
+  //useSelector is a hook that allows you to extract data from the Redux store state, 
+  //using a selector function.
   const responseSelected = useSelector((state) => state.crud.captureInput.response); //get the response selected value from the captured list
+
+  const list = useSelector((state) => state.crud.captureInput);
+
+
 
   const stageArr = useSelector((state) => state.crud.initialList[0].response);
   const stageSelected = useSelector((state) => state.crud.captureInput.interviewStage);
 
   useEffect(() => {
+    // Load the initial list
     dispatch(loadLists())
   }, [])
 
-  
-  // Check if the modal is for adding or updating
-  let check = props.addOrUpdate.crud === "edit"
+  // Check if the modal is for adding or editing (adding = true, editing = false)
+  const crud = useSelector((state) => state.crud.addOrEdit);
 
+  let check = crud === "adding" ? true : false;
+  console.log('check', check)
 
-  const [show, setShow] = useState(false);
+  //const [show, setShow] = useState(false);
+  const show = useSelector((state) => state.crud.showModal);
 
   //close modal
   const handleClose = (e) => {
+    //dispatch(update(false))
+    
     //only update the state if the user clicked on the update or add button
-   if (e?.target?.innerText === 'Add') {
+   if (check) {
       dispatch(addNew())
-    } else if (e?.target?.innerText === 'Update')  {
-      dispatch(update(props.addOrUpdate.i))
-    }
-    setShow(false)
-  };
-
-  //Show modal
-  const handleShow = (e) => {
-
-    setShow(true)  
-
-    if (e === "Add") {
-      dispatch(openModal(e))
-        console.log('adding: ')
     } else {
-      dispatch(openModal(props.addOrUpdate.i))
-        console.log('updating: ')
+      dispatch(update())
     }
+
+    dispatch(showModal(false))
   };
+
 
   return (
     <>
-      {props.addOrUpdate.crud === "edit" ? <></>:
-      <Button variant="dark" className="add-btn" onClick={()=> handleShow("Add")}>
-        Add
-      </Button>}
-
-      <img className="edit_icon" src={edit} alt="edit icon" onClick={() => handleShow("Edit")} />
-
       <Modal show={show} onHide={(e) => handleClose(e)}>
         <Modal.Header closeButton>
           <Modal.Title>Track new Interview</Modal.Title>
@@ -93,7 +84,7 @@ export default function CrudModal(props) {
               <Form.Label>Company Name</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={ check ? props.addOrUpdate.value.company: ""}
+                defaultValue={ check ? "": list.company}
                 onInput={(e) => dispatch(inputComponyName(e.target.value))}
               />
             </Form.Group>
@@ -102,7 +93,7 @@ export default function CrudModal(props) {
               <Form.Label>Link to Job / Advert</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={check ? props.addOrUpdate.value.link: ""}
+                defaultValue={check ? "": list.link}
                 onInput={(e) => dispatch(inputLink(e.target.value))}
               />
             </Form.Group>
@@ -111,20 +102,20 @@ export default function CrudModal(props) {
               <Form.Label>Role</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={check ? props.addOrUpdate.value.role: ""}
+                defaultValue={check ? "": list.role}
                 onInput={(e) => dispatch(inputRole(e.target.value))}
               />
             </Form.Group>
 
             <Accordion defaultActiveKey="" flush>
               <Accordion.Item eventKey="0">
-                <Accordion.Header>Contact</Accordion.Header>
+                <Accordion.Header><b>Contact</b></Accordion.Header>
                 <Accordion.Body>
                   <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       type="text"
-                      defaultValue={check ? props.addOrUpdate.value.contact.name: ""}
+                      defaultValue={check ? "": list.contact.name}
                       onInput={(e) =>
                         dispatch(inputContactName(e.target.value))
                       }
@@ -132,7 +123,7 @@ export default function CrudModal(props) {
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
-                      defaultValue={check ? props.addOrUpdate.value.contact.email: ""}
+                      defaultValue={check ? "": list.contact.email}
                       onInput={(e) =>
                         dispatch(inputContactEmail(e.target.value))
                       }
@@ -140,7 +131,7 @@ export default function CrudModal(props) {
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
                       type="text"
-                      defaultValue={check ? props.addOrUpdate.value.contact.phone: ""}
+                      defaultValue={check ? "": list.contact.phone}
                       onInput={(e) =>
                         dispatch(inputContactPhone(e.target.value))
                       }
@@ -154,7 +145,7 @@ export default function CrudModal(props) {
               <Form.Label>Application Date</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={check ? props.addOrUpdate.value.applyDate: ""}
+                defaultValue={check ? "": list.applyDate}
                 onInput={(e) => dispatch(inputApplyDate(e.target.value))}
               />
             </Form.Group>
@@ -203,7 +194,7 @@ export default function CrudModal(props) {
               <Form.Label>Interview Time-Date & Interviewer Name</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={check ? props.addOrUpdate.value.interviewTimeDate: ""}
+                defaultValue={check ? "": list.interviewTimeDate}
                 onInput={(e) =>
                   dispatch(inputInterviewTimeDate(e.target.value))
                 }
@@ -214,7 +205,7 @@ export default function CrudModal(props) {
               <Form.Label>Offer</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={check ? props.addOrUpdate.value.offer: ""}
+                defaultValue={check ? "": list.offer}
                 onInput={(e) => dispatch(inputOffer(e.target.value))}
               />
             </Form.Group>
@@ -223,7 +214,7 @@ export default function CrudModal(props) {
               <Form.Label>Follow Up Date</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={check ? props.addOrUpdate.value.followUpDate: ""}
+                defaultValue={check ? "": list.followUpDate}
                 onInput={(e) => dispatch(inputFollowUpDate(e.target.value))}
               />
             </Form.Group>
@@ -236,7 +227,7 @@ export default function CrudModal(props) {
             Close
           </Button>
           <Button variant="primary" onClick={(e) => handleClose(e)}>
-            {props.addOrUpdate === "Add" ? "Add" : "Update"}
+            {check ? "Add" : "Update"}
           </Button>
         </Modal.Footer>
       </Modal>

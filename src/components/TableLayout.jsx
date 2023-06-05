@@ -7,17 +7,18 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import CrudModal from "./CrudModal";
 import ListGroup from "react-bootstrap/ListGroup";
 import del from "./images/delete_document.svg";
+import edit from "./images/edit_property.svg";
 import Toast from "react-bootstrap/Toast";
 import ok from "./images/ok_1.svg";
-import { deleteCard } from "../redux/crudSlice";
+import { deleteCard, showModal, update,getIndex } from "../redux/crudSlice";
 
 export default function TableLayout() {
   const stateValues = useSelector((state) => state.crud);
-  //console.log('stateValues', stateValues)
 
-  const dispatch = useDispatch()
-  const [responseOptions, setResponseOptions] = useState();
+
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  //const showModalBool = useSelector((state) => state.crud.showModal);
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(null); // State variable to store the selected array item index
 
@@ -51,16 +52,29 @@ export default function TableLayout() {
                     />
                   </Toast.Header>
                   <Toast.Body>
-                   <b>WARNING!</b> This action cannot be undone.
-                   
+                    <b>WARNING!</b> This action cannot be undone.
                   </Toast.Body>
                 </Toast>
+
+                <img
+                  className="edit_icon"
+                  src={edit}
+                  alt="edit icon"
+                  onClick={(e) => {
+                    //handleShow("Edit")
+                    dispatch(showModal(true));
+                    dispatch(getIndex(index));
+                    //dispatch(update("editing"));
+                    //fill the form with the selected item values
+                    //set the input values to the selected item values
+                  }}
+                />
 
                 <img
                   className="delete-doc"
                   src={del}
                   alt="delete doc"
-                  onClick= {() => {
+                  onClick={() => {
                     setSelectedItemIndex(index); // Set the selected array item index
                     setShow(true); // Show the toast
                   }}
@@ -137,7 +151,6 @@ export default function TableLayout() {
           </ListGroup>
         ))}
       </section>
-      <CrudModal addOrUpdate={"Add"} />
     </>
   );
 }
