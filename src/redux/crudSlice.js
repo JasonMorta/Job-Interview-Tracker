@@ -49,15 +49,50 @@ export const mainState = createSlice({
     //All state values/functions are written/handled here
     reducers: {
         showModal: (state, action) => {
-            state.showModal = action.payload
+            console.log(`%c showModal`, 'color: #90e0ef')
+            console.log('action.payload[0] : ', action.payload)
+            console.log('action.payload.length', action.payload.length)
+
+
+
+
+
+            if (action.payload.length > 1) { //if the modal is closed, save the data to local storage
+                
+                state.addOrEdit = action?.payload[1] // = adding
+                // When adding a new item, clear the input fields
+                if (action?.payload[1] === 'adding') {
+                    state.captureInput = {
+                        company: "",
+                        link: "",
+                        role: "",
+                        contact: {
+                            name: "",
+                            email: "",
+                            phone: ""
+                        },
+                        applyDate: "",
+                        response: "",
+                        interviewStage: "",
+                        interviewTimeDate: "",
+                        offer: "",
+                        followUpDate: ""
+                    }
+                } else {
+                    state.captureInput = state.list[action?.payload[2]]
+                }
+
+            }
+
+            state.showModal = action.payload[0] // show modal
+
         },
         loadLists: (state, action) => {
-            console.log('jobList', JSON.parse(localStorage.getItem('jobList')))// returns the array of objects
+            console.log(`%c loadLists`, 'color: #ef233c')
             state.list = localStorage.getItem('jobList') ? JSON.parse(localStorage.getItem('jobList')) : [];
-            console.log('state.list: ',state.list)
         },
         getIndex: (state, action) => {
-          state.currentIndex = action.payload
+            state.currentIndex = action.payload
         },
         inputComponyName: (state, action) => {
             state.captureInput.company = action.payload
@@ -71,7 +106,6 @@ export const mainState = createSlice({
 
         //Contact:
         inputContactName: (state, action) => {
-            console.log('action', action)
             state.captureInput.contact.name = action.payload;
         },
         inputContactEmail: (state, action) => {
@@ -95,37 +129,38 @@ export const mainState = createSlice({
         },
         inputOffer: (state, action) => {
             state.captureInput.offer = action.payload
-            console.log('action.payload', action.payload)
         },
         inputFollowUpDate: (state, action) => {
             state.captureInput.followUpDate = action.payload
-            console.log('state.captureInput.followUpDate = action.payload', state.captureInput.followUpDate = action.payload)
         },
         fillFields: (state, action) => {
-            console.log('action', action)
+            console.log(`%c fillFields`, 'color: #2196f3')
             // when the modal opens, set the initial state of captureInput to the item that needs to be updated
             if (action.payload !== "Add") {
                 const index = action.payload; // Get the index of the item in the array that needs to be updated
                 state.captureInput = { ...state.list[index] }; // Assign values from state.list[index] to state.captureInput
-               
+
             }
         },
         addNew: (state, action) => {
-            console.log('adding')
+            console.log(`%c addNew`, 'color: #2196f3')
             state.addOrEdit = "adding"
-         
-            //state.captureInput = { ...state.list[0] }
+            state.list.push(state.captureInput)
             localStorage.setItem('jobList', JSON.stringify(state.list))
         },
-        update: (state, action) => {
+        editExisting: (state, action) => {
+            console.log(`%c editExisting`, 'color: #2196f3')
             state.addOrEdit = "editing"
-            const index = state.currentIndex; 
-          
-            if (state.addOrEdit === "editing") {
-                state.list[index] = { ...state.captureInput }; // Assign values from state.captureInput to state.list[index]
-                localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
-            }
-          
+            //const index = action.payload; // Get the index of the item in the array that needs to be updated
+            //state.captureInput = { ...state.list[index] }; // Assign values from state.list[index] to state.captureInput
+        },
+        update: (state, action) => {
+            console.log(`%c update`, 'color: #2196f3')
+            const index = state.currentIndex;
+
+            state.list[index] = { ...state.captureInput }; // Assign values from state.captureInput to state.list[index]
+            localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
+
         },
         deleteCard: (state, action) => {
             const index = action.payload; // Get the index of the item in the array that needs to be deleted
@@ -154,15 +189,16 @@ export const {
     inputRole,
     inputContactName,
     inputContactEmail,
-    inputContactPhone, 
-    inputApplyDate, 
-    inputResponse, 
-    inputInterviewStage, 
-    inputInterviewTimeDate, 
-    inputOffer, 
-    inputFollowUpDate, 
+    inputContactPhone,
+    inputApplyDate,
+    inputResponse,
+    inputInterviewStage,
+    inputInterviewTimeDate,
+    inputOffer,
+    inputFollowUpDate,
     addNew,
-    deleteCard
+    deleteCard,
+    editExisting
 
 } = mainState.actions
 
