@@ -148,7 +148,7 @@ export default function AuthPopUp() {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>{newUser === "true" ? "Sign up" : "Sign in"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
