@@ -13,7 +13,7 @@
     max-width: 320px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: .2s;
-    height: fit-content;
+    height: fit-content !important;
 }
 
 .list-group-item {

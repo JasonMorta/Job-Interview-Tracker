@@ -14,8 +14,8 @@
 h1 {
   font-family: myFont;
   text-align: center;
-    color: #f6f3e4;
-    font-size: 70px;
+    color: #f6f3e4 !important;
+    font-size: 70px !important;
     text-shadow: 0.03709435em 0.05936337em 0em rgba(253, 97, 85, 0.500000), 0.0741887em 0.11872673em 0em rgba(253, 97, 85, 0.300000);
 }
 
