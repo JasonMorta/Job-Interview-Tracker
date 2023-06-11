@@ -1,0 +1,17 @@
+.sign_in_with_popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.password_vis_container {
+    position: relative !important;
+}
+
+.password_visibility {
+    position: absolute !important;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}

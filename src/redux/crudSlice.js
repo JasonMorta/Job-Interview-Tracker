@@ -1,5 +1,7 @@
+import { async } from '@firebase/util';
 import { createSlice } from '@reduxjs/toolkit'
-
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { db, auth } from "../config/firebase";
 
 
 export const mainState = createSlice({
@@ -22,6 +24,7 @@ export const mainState = createSlice({
                 interviewTimeDate: "",
                 offer: "",
                 followUpDate: "",
+                userID: ""
             }
         ],
         list: [],
@@ -39,26 +42,29 @@ export const mainState = createSlice({
             interviewStage: "",
             interviewTimeDate: "",
             offer: "",
-            followUpDate: ""
+            followUpDate: "",
+            userID: ""
         },
         showModal: false,
         currentIndex: 0,
+        currentID: "",
         addOrEdit: "",//the edit and add button will be the same button, so we need to know if we are adding or editing
+        isLoggedIn: false,
     },
 
     //All state values/functions are written/handled here
     reducers: {
+        isLoggedIn: (state, action) => {
+            console.log(`%c logged in slice`, 'color: #2196f3')
+            state.isLoggedIn = action.payload
+        },
         showModal: (state, action) => {
             console.log(`%c showModal`, 'color: #90e0ef')
             console.log('action.payload[0] : ', action.payload)
             console.log('action.payload.length', action.payload.length)
 
-
-
-
-
             if (action.payload.length > 1) { //if the modal is closed, save the data to local storage
-                
+
                 state.addOrEdit = action?.payload[1] // = adding
                 // When adding a new item, clear the input fields
                 if (action?.payload[1] === 'adding') {
@@ -76,7 +82,8 @@ export const mainState = createSlice({
                         interviewStage: "",
                         interviewTimeDate: "",
                         offer: "",
-                        followUpDate: ""
+                        followUpDate: "",
+                        userID: auth.currentUser.uid,
                     }
                 } else {
                     state.captureInput = state.list[action?.payload[2]]
@@ -87,9 +94,19 @@ export const mainState = createSlice({
             state.showModal = action.payload[0] // show modal
 
         },
-        loadLists: (state, action) => {
+        loadLists:  (state, action) => {
             console.log(`%c loadLists`, 'color: #ef233c')
-            state.list = localStorage.getItem('jobList') ? JSON.parse(localStorage.getItem('jobList')) : [];
+            console.log('action.payload', action)
+            //state.list = localStorage.getItem('jobList') ? JSON.parse(localStorage.getItem('jobList')) : [];
+
+            //The data seems to load twice or more times,
+            //The first time it loads, it has the data, but the second time it loads, it is empty
+           if (action.payload?.length > 0) {
+            state.list = action.payload
+            state.isLoggedIn = true
+           } else {
+            state.list = []
+        }
         },
         getIndex: (state, action) => {
             state.currentIndex = action.payload
@@ -146,7 +163,27 @@ export const mainState = createSlice({
             console.log(`%c addNew`, 'color: #2196f3')
             state.addOrEdit = "adding"
             state.list.push(state.captureInput)
-            localStorage.setItem('jobList', JSON.stringify(state.list))
+
+            //Store to firebase
+            console.log('auth.currentUser', auth.currentUser)
+            async function getList() {
+                try {
+                    if (auth.currentUser) {
+
+                        state.captureInput.userID = auth.currentUser.uid//include the user id in the object
+
+                        // Create the Firestore document
+                        await addDoc(collection(db, "jobList"), state.captureInput);
+                        //console.log("Document created with ID: ", docRef.id);
+                        console.log(`%c Added to db`, 'color: limegreen')
+                    }
+                    // Update state or perform any other actions
+                    //localStorage.setItem('jobList', JSON.stringify(state.list))
+                } catch (error) {
+                    console.error("Error creating document: ", error);
+                    console.log(`%c NOT Added to db`, 'color: red')
+                }
+            }        getList()
         },
         editExisting: (state, action) => {
             console.log(`%c editExisting`, 'color: #2196f3')
@@ -157,16 +194,41 @@ export const mainState = createSlice({
         update: (state, action) => {
             console.log(`%c update`, 'color: #2196f3')
             const index = state.currentIndex;
+   
+            console.log('ID', state.currentID)
 
             state.list[index] = { ...state.captureInput }; // Assign values from state.captureInput to state.list[index]
-            localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
+            //localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
+
+            async function updateList() {
+                try {
+                    const item = doc(db, "jobList", state.currentID); // Create a reference to the specific track document
+
+                    await updateDoc(item, state.list[index]); // Update the document with the new data from the state
+                    console.log("card updated");
+                } catch (error) {
+                    console.log(error);
+                    console.log("card NOT updated");
+                  }
+                } updateList()
 
         },
         deleteCard: (state, action) => {
-            const index = action.payload; // Get the index of the item in the array that needs to be deleted
-            state.list.splice(index, 1); // Remove the item from the array
+            //const id = action?.payload; // Get the index of the item in the array that needs to be deleted
+           
+            state.list.splice(state.currentIndex, 1); // Remove the item from the array
+            //console.log('id', id)
+  
 
-            localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
+            //localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
+     
+    
+            
+        },
+        getCardID: (state, action) => {
+            console.log(`%c getCardID`, 'color: #2196f3')
+            state.currentID = action.payload
+            
         }
     },
 })
@@ -180,6 +242,7 @@ export const {
     initialState,
     showModal,
     getIndex,
+    isLoggedIn,
     loadLists,
     addOrEditBtn,
     fillFields,
@@ -195,6 +258,7 @@ export const {
     inputInterviewStage,
     inputInterviewTimeDate,
     inputOffer,
+    getCardID,
     inputFollowUpDate,
     addNew,
     deleteCard,

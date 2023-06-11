@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,7 +7,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useSelector, useDispatch } from "react-redux";
 import "./styles/CrudModal.css";
 import {
-  initialState,
   inputComponyName,
   inputLink,
   inputRole,
@@ -24,7 +23,6 @@ import {
   update,
   loadLists,
   showModal,
-  openModal,
 } from "../redux/crudSlice";
 
 export default function CrudModal(props) {
@@ -37,6 +35,8 @@ export default function CrudModal(props) {
   const responseSelected = useSelector((state) => state.crud?.captureInput?.response); //get the response selected value from the captured list?
 
   const list = useSelector((state) => state.crud?.captureInput);
+  const index = useSelector((state) => state.crud?.currentIndex);
+  // const list = useSelector((state) => state.crud?.captureInput);
 
 
 
@@ -45,7 +45,8 @@ export default function CrudModal(props) {
 
   useEffect(() => {
     // Load the initial list?
-    dispatch(loadLists())
+    //dispatch(loadLists())
+    
   }, [])
 
   // Check if the modal is for adding or editing (adding = true, editing = false)

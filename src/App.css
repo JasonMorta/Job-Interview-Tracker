@@ -14,3 +14,20 @@
 h1 {
   font-family: myFont;
 }
+
+.sing_btn_container {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+}
+
+.sign_in {
+margin: 3px;
+background-color: ;
+ 
+}
+
+.sign_up {
+  margin: 3px;
+}
