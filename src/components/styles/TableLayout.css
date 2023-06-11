@@ -13,10 +13,12 @@
     max-width: 320px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: .2s;
+    height: fit-content;
 }
 
 .list-group-item {
   max-width: inherit!important;
+  background-color: #f6f3e4;
 }
 
 .list-group:hover{
@@ -80,7 +82,7 @@
   word-wrap: break-word;
     word-break: break-all;
     height: 20px;
-    margin: 10px 0px;
+    margin: 0px;
     overflow: hidden;
 }
 

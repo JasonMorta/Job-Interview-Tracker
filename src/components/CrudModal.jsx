@@ -21,7 +21,7 @@ import {
   inputFollowUpDate,
   addNew,
   update,
-  loadLists,
+  inputLocation,
   showModal,
 } from "../redux/crudSlice";
 
@@ -89,6 +89,15 @@ export default function CrudModal(props) {
                 type="text"
                 defaultValue={ check ? "": list?.company}
                 onInput={(e) => dispatch(inputComponyName(e.target.value))}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Location</Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={check ? "": list?.location}
+                onInput={(e) => dispatch(inputLocation(e.target.value))}
               />
             </Form.Group>
 

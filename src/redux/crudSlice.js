@@ -11,6 +11,7 @@ export const mainState = createSlice({
         initialList: [
             {
                 company: "",
+                location: "",
                 link: "",
                 role: "",
                 contact: {
@@ -30,6 +31,7 @@ export const mainState = createSlice({
         list: [],
         captureInput: {
             company: "",
+            location: "",
             link: "",
             role: "",
             contact: {
@@ -71,6 +73,7 @@ export const mainState = createSlice({
                     state.captureInput = {
                         company: "",
                         link: "",
+                        location: "",
                         role: "",
                         contact: {
                             name: "",
@@ -113,6 +116,9 @@ export const mainState = createSlice({
         },
         inputComponyName: (state, action) => {
             state.captureInput.company = action.payload
+        },
+        inputLocation: (state, action) =>{
+            state.captureInput.location = action.payload
         },
         inputLink: (state, action) => {
             state.captureInput.link = action.payload
@@ -241,6 +247,7 @@ export const mainState = createSlice({
 export const {
     initialState,
     showModal,
+    inputLocation,
     getIndex,
     isLoggedIn,
     loadLists,

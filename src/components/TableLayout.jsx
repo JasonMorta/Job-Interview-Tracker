@@ -64,9 +64,9 @@ export default function TableLayout() {
                       className="rounded me-2 confirm-delete"
                       alt="confirm delete icon"
                       onClick={() => {
-                        //dispatch(deleteCard([index, item.id]));
+                        //dispatch(deleteCard([index, item?.id]));
                         setShow(false);
-                        getList(item.id);
+                        getList(item?.id);
                         dispatch(deleteCard());
                       }}
                     />
@@ -85,7 +85,7 @@ export default function TableLayout() {
                     dispatch(showModal([true, "edit", index]));
                     dispatch(getIndex(index));
                     dispatch(editExisting());
-                    dispatch(getCardID(item.id));
+                    dispatch(getCardID(item?.id));
                     //fill the form with the selected item values
                     //set the input values to the selected item values
                   }}
@@ -107,17 +107,25 @@ export default function TableLayout() {
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Company name</div>
-                {item.company}
+                {item?.company}
               </div>
             </ListGroup.Item>
+
+            <ListGroup.Item>
+              <div className="ms-2 me-auto">
+                <div className="fw-bold">Location</div>
+                {item?.location}
+              </div>
+            </ListGroup.Item>
+
             <ListGroup.Item
               style={{ maxWidth: "300px", lineBreak: "anywhere" }}
             >
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Link</div>
                 <p className="job-link">
-                  <a href={`${item.link}`} target="_blank" rel="noreferrer">
-                    {item.link}
+                  <a href={`${item?.link}`} target="_blank" rel="noreferrer">
+                    {item?.link}
                   </a>
                 </p>
               </div>
@@ -125,53 +133,53 @@ export default function TableLayout() {
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Role</div>
-                {item.role}
+                {item?.role}
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold ">Contact</div>
                 <div className="contactList">
-                  <p>{`Name: ${item.contact.name}`}</p>
-                  <p>{`Email: ${item.contact.email}`}</p>
-                  <p>{`Phone: ${item.contact.phone}`}</p>
+                  <p>{`Name: ${item?.contact.name}`}</p>
+                  <p>{`Email: ${item?.contact.email}`}</p>
+                  <p>{`Phone: ${item?.contact.phone}`}</p>
                 </div>
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Apply date</div>
-                {item.applyDate}
+                {item?.applyDate}
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Response</div>
-                {item.response}
+                {item?.response}
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Interview stage</div>
-                {item.interviewStage}
+                {item?.interviewStage}
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Interview Time/Date</div>
-                {item.interviewTimeDate}
+                {item?.interviewTimeDate}
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Offer</div>
-                {item.offer}
+                {item?.offer}
               </div>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="ms-2 me-auto">
                 <div className="fw-bold">Followup date</div>
-                {item.followUpDate}
+                {item?.followUpDate}
               </div>
             </ListGroup.Item>
           </ListGroup>
