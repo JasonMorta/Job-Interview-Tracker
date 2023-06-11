@@ -8,7 +8,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth"; //getAuth is the authentication object
 import { getFirestore } from "firebase/firestore"; //Get Cloud Firestore database
 
-console.log('process.env.REACT_APP_API_KEY', process.env.REACT_APP_API_KEY)
+//console.log('process.env.REACT_APP_API_KEY', process.env.REACT_APP_API_KEY)
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
