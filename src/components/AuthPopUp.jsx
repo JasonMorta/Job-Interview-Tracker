@@ -12,8 +12,8 @@ import {
 import hidePass from "./images/hide.png";
 import showPass from "./images/show.png";
 import CSS from "./Auth.module.css";
-import { useDispatch } from "react-redux";
-import { isLoggedIn } from "../redux/crudSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { isLoggedIn, loading } from "../redux/crudSlice";
 
 export default function AuthPopUp() {
   const [show, setShow] = useState(false);
@@ -60,25 +60,32 @@ export default function AuthPopUp() {
 
   //! Sign in with Email and Password
   async function singInWithEmail() {
+    console.log(`%c login started`, 'color: #2196f3')
+    dispatch(loading(true));
     try {
       await signInWithEmailAndPassword(auth, email, password); //this method sends the email and password to firebase
+      console.log(`%c login ended`, 'color: #2196f3')
       console.log("logIn user ", auth?.currentUser);
       setUserData(auth?.currentUser);
       setLoggedIn(true);
       dispatch(isLoggedIn(true));
+      // dispatch(loading(false));
     } catch (error) {
       console.log("error ", error);
     }
   }
 
   async function signUpWithEmail() {
+ 
     console.log("sign up with email");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+
       console.log("sign up with email", auth?.currentUser);
       setUserData(auth?.currentUser);
       setLoggedIn(true);
       dispatch(isLoggedIn(true));
+ 
     } catch (error) {
       console.log("error ", error);
     }

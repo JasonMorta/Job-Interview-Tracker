@@ -20,10 +20,12 @@ export default function Auth() {
 
   //! Sign in with Email and Password
   const singInWithEmail = async () => {
+    console.log(`%c login started`, 'color: #2196f3')
     try {
       await createUserWithEmailAndPassword(auth, email, password); //this method sends the email and password to firebase
       //console.log("logIn user ", auth?.currentUser);
       //setUserImg(auth?.currentUser?.photoURL);
+      console.log(`%c login ended`, 'color: #2196f3')
     } catch (error) {
       console.log("error ", error);
     }
@@ -32,11 +34,12 @@ export default function Auth() {
   //! Sign in with Google
   const singInWithGoogle = async () => {
     console.log(`%c making login request`, "color: #70e000");
+
     try {
       await signInWithPopup(auth, googleProvider);
       console.log("sign with google", auth?.currentUser);
-      sessionStorage.setItem("user", JSON.stringify(auth?.currentUser));
-      setUserImg(auth?.currentUser?.photoURL);
+     // sessionStorage.setItem("user", JSON.stringify(auth?.currentUser));
+      //setUserImg(auth?.currentUser?.photoURL);
 
       //passUser(auth?.currentUser);
     } catch (error) {
@@ -46,15 +49,25 @@ export default function Auth() {
 
   //Sign out of Google
   const singOut = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      setUserImg(noUser);
-      dispatch(loadLists(undefined));
-      //passUser(null);
-      console.log("signed out");
-    } catch (error) {
-      console.log("error ", error);
-    }
+    // try {
+    //   await signInWithPopup(auth, googleProvider);
+    //   setUserImg(noUser);
+    //   dispatch(loadLists(undefined));
+    //   //passUser(null);
+    //   console.log("signed out");
+    // } catch (error) {
+    //   console.log("error ", error);
+    // }
+    console.log('singOut')
+    await auth.auth().signOut()
+    .then((res) => {
+      console.log('res', res)
+      // Sign-out successful. You can redirect the user or perform other actions here.
+    })
+    .catch((error) => {
+      // An error occurred. Handle the error gracefully.
+      console.error('Error signing out:', error);
+    });
   };
 
   return (
@@ -75,7 +88,7 @@ export default function Auth() {
       <h4>Sign in with Google</h4>
       <button onClick={singInWithGoogle}>Sign In</button>
       {/* <img src={userImg ? userImg : noUser} alt="user" /> */}
-      <button onClick={singOut}>Sign Out</button>
+      {/* <button onClick={singOut}>Sign Ou!t</button> */}
     </div>
   );
 }

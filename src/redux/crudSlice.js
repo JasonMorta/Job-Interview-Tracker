@@ -52,6 +52,7 @@ export const mainState = createSlice({
         currentID: "",
         addOrEdit: "",//the edit and add button will be the same button, so we need to know if we are adding or editing
         isLoggedIn: false,
+        isLoading: false,
     },
 
     //All state values/functions are written/handled here
@@ -59,6 +60,12 @@ export const mainState = createSlice({
         isLoggedIn: (state, action) => {
             console.log(`%c logged in slice`, 'color: #2196f3')
             state.isLoggedIn = action.payload
+            console.log('isLoggedIn', action.payload)
+            let loggedIn = action.payload
+            if (loggedIn) {
+                state.list = []
+                //state.captureInput = {}
+            }
         },
         showModal: (state, action) => {
             console.log(`%c showModal`, 'color: #90e0ef')
@@ -97,27 +104,31 @@ export const mainState = createSlice({
             state.showModal = action.payload[0] // show modal
 
         },
-        loadLists:  (state, action) => {
+        loadLists: (state, action) => {
             console.log(`%c loadLists`, 'color: #ef233c')
             console.log('action.payload', action)
             //state.list = localStorage.getItem('jobList') ? JSON.parse(localStorage.getItem('jobList')) : [];
 
             //The data seems to load twice or more times,
             //The first time it loads, it has the data, but the second time it loads, it is empty
-           if (action.payload?.length > 0) {
-            state.list = action.payload
-            state.isLoggedIn = true
-           } else {
-            state.list = []
-        }
+            if (action.payload?.length > 0) {
+                state.list = action.payload
+                state.isLoggedIn = true
+                state.isLoading = false
+            } else {
+                state.list = []
+            }
         },
         getIndex: (state, action) => {
             state.currentIndex = action.payload
         },
+        loading: (state, action) => {
+            state.isLoading = action.payload
+        },
         inputComponyName: (state, action) => {
             state.captureInput.company = action.payload
         },
-        inputLocation: (state, action) =>{
+        inputLocation: (state, action) => {
             state.captureInput.location = action.payload
         },
         inputLink: (state, action) => {
@@ -126,9 +137,7 @@ export const mainState = createSlice({
         inputRole: (state, action) => {
             state.captureInput.role = action.payload
         },
-
-        //Contact:
-        inputContactName: (state, action) => {
+        inputContactName: (state, action) => {//Contact:
             state.captureInput.contact.name = action.payload;
         },
         inputContactEmail: (state, action) => {
@@ -189,7 +198,7 @@ export const mainState = createSlice({
                     console.error("Error creating document: ", error);
                     console.log(`%c NOT Added to db`, 'color: red')
                 }
-            }        getList()
+            } getList()
         },
         editExisting: (state, action) => {
             console.log(`%c editExisting`, 'color: #2196f3')
@@ -200,7 +209,7 @@ export const mainState = createSlice({
         update: (state, action) => {
             console.log(`%c update`, 'color: #2196f3')
             const index = state.currentIndex;
-   
+
             console.log('ID', state.currentID)
 
             state.list[index] = { ...state.captureInput }; // Assign values from state.captureInput to state.list[index]
@@ -215,26 +224,26 @@ export const mainState = createSlice({
                 } catch (error) {
                     console.log(error);
                     console.log("card NOT updated");
-                  }
-                } updateList()
+                }
+            } updateList()
 
         },
         deleteCard: (state, action) => {
             //const id = action?.payload; // Get the index of the item in the array that needs to be deleted
-           
+
             state.list.splice(state.currentIndex, 1); // Remove the item from the array
             //console.log('id', id)
-  
+
 
             //localStorage.setItem('jobList', JSON.stringify(state.list)) // Update localStorage
-     
-    
-            
+
+
+
         },
         getCardID: (state, action) => {
             console.log(`%c getCardID`, 'color: #2196f3')
             state.currentID = action.payload
-            
+
         }
     },
 })
@@ -252,6 +261,7 @@ export const {
     isLoggedIn,
     loadLists,
     addOrEditBtn,
+    loading,
     fillFields,
     inputComponyName,
     update,
