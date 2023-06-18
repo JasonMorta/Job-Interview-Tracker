@@ -16,3 +16,44 @@
 .modal-footer {
     padding: 3px 5px !important;
 }
+
+.modal-body {
+    height: 80vh;
+    overflow: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 7px;
+    transition: .2s ease-in-out;
+}
+.modal-body:hover::-webkit-scrollbar {
+  /* width: 5px; */
+  transition: 1s ease-in-out;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #5e967f;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #5c8860;
+}
+
+.modal-backdrop {
+    background-color: #0000003f !important;
+}
+
+.modal-content {
+    border-color: floralwhite !important;
+    border-radius: 5px !important;
+}
+
+.modal-response-container, .modal-stage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

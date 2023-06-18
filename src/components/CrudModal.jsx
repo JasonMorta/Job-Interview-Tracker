@@ -163,12 +163,15 @@ export default function CrudModal(props) {
             </Form.Group>
 
             <Dropdown>
-              <Dropdown.Toggle
-                id="dropdown-button-dark-example1"
-                variant="success"
-              >
-                {responseSelected ? responseSelected : "Response"}
-              </Dropdown.Toggle>
+              <div className='modal-response-container' >
+                <label >Response</label>
+                <Dropdown.Toggle
+                  id="dropdown-button-dark-example1"
+                  variant="success"
+                >
+                  {responseSelected ? responseSelected : "Response"}
+                </Dropdown.Toggle>
+              </div>
               <Dropdown.Menu variant="dark">
                 {responseArr?.map((item, j) => (
                   <Dropdown.Item
@@ -182,12 +185,15 @@ export default function CrudModal(props) {
             </Dropdown>
             <br />
             <Dropdown>
-              <Dropdown.Toggle
-                id="dropdown-button-dark-example1"
-                variant="success"
-              >
-                {stageSelected ? stageSelected : "Interview Stage"}
-              </Dropdown.Toggle>
+             <div className="modal-stage-container">
+             <label >Interview Stage</label>
+                <Dropdown.Toggle
+                  id="dropdown-button-dark-example1"
+                  variant="success"
+                >
+                  {stageSelected ? stageSelected : "Interview Stage"}
+                </Dropdown.Toggle>
+             </div>
               <Dropdown.Menu variant="dark">
                 {stageArr?.map((item, j) => (
                   <Dropdown.Item
