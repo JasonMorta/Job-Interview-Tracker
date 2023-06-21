@@ -18,8 +18,9 @@
 }
 
 .modal-body {
-    height: 80vh;
+    max-height: 80vh;
     overflow: auto;
+    transition: .3s ease-in-out;
 }
 
 .modal-body::-webkit-scrollbar {
@@ -56,4 +57,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.spinner-modal {
+    display: flex;
+    justify-content: center;
+    height: 280px;
+    align-items: center;
+    transition: .3s ease-in-out;
 }

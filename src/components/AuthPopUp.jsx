@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import Spinner from 'react-bootstrap/Spinner';
 import { auth, googleProvider } from "../config/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -25,13 +26,15 @@ export default function AuthPopUp() {
 
   //Redux state
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.crud.isLoading);
 
   //! First login or register with email then close modal synchronously
   const handleClose = (event) => {
     console.log("event", event);
     console.log("newUser", newUser);
 
-    if (event === "hide") { //if the user clicks on the close button don't do anything
+    if (event === "hide") {
+      //if the user clicks on the close button don't do anything
       setShow(false);
       return;
     } else if (newUser === "true") {
@@ -60,11 +63,11 @@ export default function AuthPopUp() {
 
   //! Sign in with Email and Password
   async function singInWithEmail() {
-    console.log(`%c login started`, 'color: #2196f3')
+    console.log(`%c login started`, "color: #2196f3");
     dispatch(loading(true));
     try {
       await signInWithEmailAndPassword(auth, email, password); //this method sends the email and password to firebase
-      console.log(`%c login ended`, 'color: #2196f3')
+      console.log(`%c login ended`, "color: #2196f3");
       console.log("logIn user ", auth?.currentUser);
       setUserData(auth?.currentUser);
       setLoggedIn(true);
@@ -76,7 +79,6 @@ export default function AuthPopUp() {
   }
 
   async function signUpWithEmail() {
- 
     console.log("sign up with email");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -85,7 +87,6 @@ export default function AuthPopUp() {
       setUserData(auth?.currentUser);
       setLoggedIn(true);
       dispatch(isLoggedIn(true));
- 
     } catch (error) {
       console.log("error ", error);
     }
@@ -97,12 +98,11 @@ export default function AuthPopUp() {
       setUserData(null);
       setLoggedIn(false);
       dispatch(isLoggedIn(false));
-      console.log('currentUser: ',auth.currentUser)
+      console.log("currentUser: ", auth.currentUser);
     } catch (error) {
       console.log("error ", error);
     }
   }
-
 
   // useEffect(() => {
   //   console.log("userData", userData);
@@ -122,29 +122,32 @@ export default function AuthPopUp() {
   return (
     <>
       <div className="sing_btn_container">
-        {loggedIn ?  
-        <Button
+        {loggedIn ? (
+          <Button
             variant="dark"
             className="sign_out"
             onClick={(e) => handleSignOut(e)}
-          >Sign out</Button>
-          :
-           <>
-          <Button
-            variant="light"
-            className="sign_in"
-            onClick={(e) => handleShow(e)}
           >
-            Sign in
+            Sign out
           </Button>
-          <Button
-            variant="dark"
-            className="sign_up"
-            onClick={(e) => handleShow(e)}
-          >
-            Sign up
-          </Button>
-        </>}
+        ) : (
+          <>
+            <Button
+              variant="light"
+              className="sign_in"
+              onClick={(e) => handleShow(e)}
+            >
+              Sign in
+            </Button>
+            <Button
+              variant="dark"
+              className="sign_up"
+              onClick={(e) => handleShow(e)}
+            >
+              Sign up
+            </Button>
+          </>
+        )}
       </div>
 
       <Modal
@@ -154,58 +157,72 @@ export default function AuthPopUp() {
           handleClose("hide");
         }}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>{newUser === "true" ? "Sign up" : "Sign in"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
-                type="email"
-                placeholder="Email address"
-                onChange={(e) => setEmail(e.target.value)}
-                autoFocus
-              />
-              <br />
-              <div className={CSS.password_vis_container}>
-                <Form.Control
-                  type="password"
-                  placeholder="password"
-                  autoFocus
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <img
-                  className={CSS.password_visibility}
-                  src={hidePass}
-                  alt="hide password icon"
-                  onClick={(e) => secret(e)}
-                />
-              </div>
-            </Form.Group>
-            <Button
-              variant="primary"
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              {newUser === "true" ? "Sign up" : "Sign in"}
-            </Button>
-            <br />
-            <br />
-            <Button
-              variant="secondary"
-              onClick={() => {
-                //setNewUser(true);
-                signUpWithEmail();
-                handleClose();
-              }}
-            >
-              Sign in with Google
-            </Button>
-          </Form>
-        </Modal.Body>
+        {!isLoading ? (
+          <>
+            <Modal.Header closeButton>
+              <Modal.Title>
+                {newUser === "true" ? "Sign up" : "Sign in"}
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Control
+                    type="email"
+                    placeholder="Email address"
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoFocus
+                  />
+                  <br />
+                  <div className={CSS.password_vis_container}>
+                    <Form.Control
+                      type="password"
+                      placeholder="password"
+                      autoFocus
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <img
+                      className={CSS.password_visibility}
+                      src={hidePass}
+                      alt="hide password icon"
+                      onClick={(e) => secret(e)}
+                    />
+                  </div>
+                </Form.Group>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  {newUser === "true" ? "Sign up" : "Sign in"}
+                </Button>
+                <br />
+                <br />
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    //setNewUser(true);
+                    signUpWithEmail();
+                    handleClose();
+                  }}
+                >
+                  Sign in with Google
+                </Button>
+              </Form>
+            </Modal.Body>
+          </>
+        ) : (
+          <div className="spinner-modal">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        )}
       </Modal>
     </>
   );
 }
-
