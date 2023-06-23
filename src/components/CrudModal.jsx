@@ -83,7 +83,7 @@ export default function CrudModal(props) {
   return (
     <>
       <Modal show={show} onHide={(e) => handleClose(e)}>
-        {isLoading ? 
+        {!isLoading ? 
          <>
            <Modal.Header closeButton>
               <Modal.Title>{check ? "Track new Interview" : "Update Interview Status"}</Modal.Title>
